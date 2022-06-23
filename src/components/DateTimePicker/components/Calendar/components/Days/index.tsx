@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { DropdownItemProps } from '../../../../../Dropdown';
+import { useDateTimePicker } from '../../../../contexts/DateTimePickerContext';
 import { allMonths } from '../../config';
 
 import {
@@ -37,6 +38,8 @@ export function Days({
     dropdownVisible
 }: DaysComponentProps){
 
+    const { setDateSelected } = useDateTimePicker()
+
     const [year, setYear] = useState<Record<string, YearProps>>({})
     const [days, setDays] = useState<DaysProps[]>([])
 
@@ -44,7 +47,9 @@ export function Days({
 
     const [monthNames, setMonthNames] = useState(allMonths)
 
-    const yearLong = 2022
+    const [daySelected, setDaySelected] = useState<DaysProps>({} as DaysProps)
+
+    const [yearLong, setYearLong] = useState<number>(1970)
     
     const mountYear = (year: number ): Promise<Record<string, YearProps>> => {
 
@@ -121,6 +126,18 @@ export function Days({
         return Array.from({length}, (item, index) => index + 1)
     }
 
+    const handleSelectedDate = () => {
+        if(daySelected && monthSelected){
+            const date = `${yearLong}/${monthNumber}/${daySelected.day}`
+            setDateSelected(new Date(date))
+        }
+    }
+
+    const clearDay = () => {
+        const emptyDay = {} as DaysProps
+        setDaySelected(emptyDay)
+    }
+
     useEffect(() => {
         setSelectedDate(yearLong)
 
@@ -129,17 +146,30 @@ export function Days({
     useEffect(() => {
         console.log('MONTH NUMBER', monthSelected)
         setMonthNumber(Number(monthSelected?.value?.split('|')[0]))
+        setYearLong(Number(monthSelected?.value?.split('|')[1]))
+        clearDay()
+        
     }, [monthSelected])
 
+    useEffect(() => {
+        handleSelectedDate()
+    }, [daySelected])
+
     return (
-        <Container pointerEvents={dropdownVisible ? 'none' : 'auto'} style={{elevation: 1}}>
+        <Container pointerEvents={dropdownVisible ? 'none' : 'auto'}>
             <FlatGrid
             itemDimension={38}
             maxItemsPerRow={7}
             data={days}
             renderItem={({ item }) => (
-                <DayContainer>
-                    <Day isCurrentMonth={item.isCurrentMonth}>{item.day}</Day>
+                <DayContainer 
+                    isSelected={item.day === daySelected.day && item.isCurrentMonth === daySelected.isCurrentMonth} 
+                    activeOpacity={1} 
+                    onPress={() => item.isCurrentMonth && setDaySelected(item)}>
+
+                    <Day 
+                        isSelected={item.day === daySelected.day && item.isCurrentMonth === daySelected.isCurrentMonth} 
+                        isCurrentMonth={item.isCurrentMonth}>{item.day}</Day>
                 </DayContainer>
             )}
             />

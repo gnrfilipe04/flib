@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
     flex-direction: row;
     justify-content: space-between;
-    position: relative;
 `;
 
 export const Day = styled.Text`

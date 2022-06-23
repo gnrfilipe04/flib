@@ -9,7 +9,7 @@ import {
   ListItemContainer,
   ListItem
 } from './styles';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 export interface DropdownItemProps<V> {
   key: string | number[],
@@ -49,23 +49,26 @@ export function Dropdown<V>({
             <Ionicons name={listVisible ? "chevron-up" : "chevron-down"} size={20} color="black"/>
         </Input>
 
-        {listVisible && <ContainerList style={{elevation: 998}}>
-          <FlatList
-            data={list}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={({key}) => String(key)}
-            renderItem={({item}) => (
-              <ListItemContainer onPress={() => {
-                setValue(item.label)
-                setListVisible(false)
-                onChange(item)
-              }}>
-                <ListItem>{item.label.split(' ')[0]}</ListItem>
-                <ListItem>{item.label.split(' ')[1]}</ListItem>
-              </ListItemContainer>
-            )}
-          />
-        </ContainerList>}
+        {listVisible && 
+        <>
+          <ContainerList style={{elevation: 998}}>
+            <FlatList
+              data={list}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={({key}) => String(key)}
+              renderItem={({item}) => (
+                <ListItemContainer onPress={() => {
+                  setValue(item.label)
+                  setListVisible(false)
+                  onChange(item)
+                }}>
+                  <ListItem>{item.label.split(' ')[0]}</ListItem>
+                  <ListItem>{item.label.split(' ')[1]}</ListItem>
+                </ListItemContainer>
+              )}
+            />
+          </ContainerList>
+        </>}
     </Container>
   );
 }

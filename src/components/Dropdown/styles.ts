@@ -27,6 +27,7 @@ export const ContainerList = styled.View`
     border-width: 1px;
     border-color: silver;
     border-radius: 4px;
+    margin: 0 5px;
 `;
 
 export const ListItem = styled.Text`

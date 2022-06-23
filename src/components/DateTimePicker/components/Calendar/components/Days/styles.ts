@@ -1,14 +1,18 @@
 import styled, { css } from 'styled-components/native';
 
-interface DayContainerProps {
+interface DayProps {
     isCurrentMonth: boolean;
+    isSelected: boolean;
+}
+
+interface DayContainerProps {
+    isSelected: boolean;
 }
 
 export const Container = styled.View`
-    position: relative;
 `;
 
-export const Day = styled.Text<DayContainerProps>`
+export const Day = styled.Text<DayProps>`
     
     font-weight: 400;
     font-size: 16px;
@@ -25,11 +29,33 @@ export const Day = styled.Text<DayContainerProps>`
             `
         }   
     }
+
+    ${({isSelected}) => {
+
+    return isSelected 
+        &&   css`
+                color: white;
+            `
+        }   
+    }
+
 `;
 
-export const DayContainer = styled.View`
-    padding: 10px;
+export const DayContainer = styled.TouchableOpacity<DayContainerProps>`
     border-radius: 100px;
-    background-color: white;
+    margin: 0px 10px;
+    padding: 2px 0;
     
+
+    ${({isSelected}) => {
+
+    return isSelected 
+        ?   css`
+                background-color: #cc3764;
+            `
+        :   css`
+                background-color: white;
+            `
+        }   
+    }
 `;

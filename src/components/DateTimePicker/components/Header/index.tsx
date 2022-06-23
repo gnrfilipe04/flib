@@ -11,14 +11,20 @@ import {
   SelectDateTitle,
   SelectDateValue
 } from './styles';
+import { TouchableOpacity } from 'react-native';
+import { useDateTimePicker } from '../../contexts/DateTimePickerContext';
 
 export function Header(){
+  const { dateSelected }  = useDateTimePicker()
+
   return (
     <Container>
         
         <Top>
             <AntDesign name="close" size={20} color="white" />
-            <Save>Salvar</Save>
+            <TouchableOpacity onPress={() => console.log(dateSelected)}>
+              <Save>Salvar</Save>
+            </TouchableOpacity>
         </Top>
 
         <Bottom>
