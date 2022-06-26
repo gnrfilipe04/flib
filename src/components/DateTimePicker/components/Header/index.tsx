@@ -3,6 +3,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import { useDateTimePicker } from '../../contexts/DateTimePickerContext';
+import { allMonths } from '../Calendar/config';
 
 import {
   Container, 
@@ -13,9 +14,14 @@ import {
   SelectDateTitle,
   SelectDateValue
 } from './styles';
-import { allMonths } from '../Calendar/config';
 
-export function Header(){
+interface HeaderProps {
+  getDate: (date: Date) => void;
+}
+
+export function Header({
+  getDate
+}: HeaderProps){
   const { dateSelected }  = useDateTimePicker()
 
   const [dateText, setDateText] = useState('')
@@ -40,7 +46,7 @@ export function Header(){
         
         <Top>
             <AntDesign name="close" size={20} color="white" />
-            <TouchableOpacity onPress={() => console.log(dateSelected)}>
+            <TouchableOpacity onPress={() => getDate(dateSelected)}>
               <Save>Salvar</Save>
             </TouchableOpacity>
         </Top>

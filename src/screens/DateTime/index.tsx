@@ -8,7 +8,7 @@ import {
 export function DateTime(){
   return (
     <Container>
-        <DateTimePicker />
+        <DateTimePicker getDate={(date) => console.log('DATE', date)}/>
     </Container>
   );
 }

@@ -7,12 +7,18 @@ import {
   Container
 } from './styles';
 
-export function DateTimePicker(){
+interface DateTimePickerProps {
+  getDate: (date: Date) => void;
+}
+
+export function DateTimePicker({
+  getDate
+}: DateTimePickerProps){
 
   return (
     <DateTimePickerProvider>
       <Container>
-        <Header />
+        <Header getDate={getDate}/>
         <Calendar />
       </Container>
     </DateTimePickerProvider>
