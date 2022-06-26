@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
+import { useDateTimePicker } from '../../contexts/DateTimePickerContext';
 
 import {
   Container, 
@@ -11,11 +13,27 @@ import {
   SelectDateTitle,
   SelectDateValue
 } from './styles';
-import { TouchableOpacity } from 'react-native';
-import { useDateTimePicker } from '../../contexts/DateTimePickerContext';
+import { allMonths } from '../Calendar/config';
 
 export function Header(){
   const { dateSelected }  = useDateTimePicker()
+
+  const [dateText, setDateText] = useState('')
+  
+  const handleDateText = (date: Date) => {
+    const month = allMonths[date.getMonth()] || '-'
+    const day = date.getDate()
+
+    const dayFormatted = day ? String(day).padStart(2, '0') : '-'
+
+    setDateText(`${dayFormatted} ${month?.substring(0, 3)}`)
+  }
+
+  useEffect(() => {
+    const date = dateSelected || new Date()
+    handleDateText(date)
+
+  }, [dateSelected])
 
   return (
     <Container>
@@ -30,7 +48,7 @@ export function Header(){
         <Bottom>
             <SelectDate>
                 <SelectDateTitle>Data selecionada</SelectDateTitle>
-                <SelectDateValue>20 Jun</SelectDateValue>
+                <SelectDateValue>{dateText}</SelectDateValue>
             </SelectDate>
             <MaterialIcons name="edit" size={30} color="white" />
         </Bottom>

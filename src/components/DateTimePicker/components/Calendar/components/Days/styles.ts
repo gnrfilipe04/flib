@@ -3,10 +3,12 @@ import styled, { css } from 'styled-components/native';
 interface DayProps {
     isCurrentMonth: boolean;
     isSelected: boolean;
+    isToday: boolean;
 }
 
 interface DayContainerProps {
     isSelected: boolean;
+    isToday: boolean;
 }
 
 export const Container = styled.View`
@@ -32,10 +34,28 @@ export const Day = styled.Text<DayProps>`
 
     ${({isSelected}) => {
 
-    return isSelected 
+    return isSelected
         &&   css`
                 color: white;
             `
+        }   
+    }
+
+    ${({isToday, isSelected}) => {
+        
+            if(isToday){
+                if(isSelected){
+                    return css`
+                        color: white;
+                    `
+                }else {
+                    return css`
+                        color: #805AD5;
+                        font-weight: bold;
+                    `
+                }
+                
+            }
         }   
     }
 
@@ -58,4 +78,5 @@ export const DayContainer = styled.TouchableOpacity<DayContainerProps>`
             `
         }   
     }
+
 `;

@@ -24,8 +24,9 @@ interface YearProps {
 }
 
 interface DaysProps {
-    day: number,
-    isCurrentMonth: boolean; 
+    day: number;
+    isCurrentMonth: boolean;
+    isToday: boolean; 
 }
 
 interface DaysComponentProps {
@@ -99,24 +100,28 @@ export function Days({
         const monthSelected = findMonth(yearSelected, yearNumber, currentMonth)
         return monthSelected.daysCount
     }
+    const getToday = (day: number) => {
+        return day === new Date().getDate() && monthNumber === new Date().getMonth() + 1
+    }
 
     const setDaysOfMonth = (yearSelected: Record<string, YearProps>) => {
         
         //Previous Month
         const previousMonth = getPreviousMonth(yearSelected, monthNumber, yearLong)
         const previousToArray = toArray(getDaysOfMonth(yearSelected, yearLong, previousMonth.monthNumber))
-        const previousToDaysProps: DaysProps[] = previousToArray.map(day => ({day, isCurrentMonth: false}))
+        const previousToDaysProps: DaysProps[] = previousToArray.map(day => ({day, isCurrentMonth: false, isToday: false}))
+        console.log(previousToDaysProps.length, previousMonth.lastDay, previousToDaysProps.length)
         const previousDays = previousToDaysProps
             .slice(previousToDaysProps.length - previousMonth.lastDay - 1, previousToDaysProps.length) 
 
         //Current Month
         const currentMonth = getDaysOfMonth(yearSelected, yearLong, monthNumber)
         const daysOfMonthArray = toArray(currentMonth)
-        const daysToCurrentMonth: DaysProps[] = daysOfMonthArray.map(day => ({day, isCurrentMonth: true}))
+        const daysToCurrentMonth: DaysProps[] = daysOfMonthArray.map(day => ({day, isCurrentMonth: true, isToday: getToday(day)}))
 
         //Next Month
         const nextToArray = toArray(35 - currentMonth - previousDays.length)
-        const nextDays: DaysProps[] = nextToArray.map(day => ({day, isCurrentMonth: false}))
+        const nextDays: DaysProps[] = nextToArray.map(day => ({day, isCurrentMonth: false, isToday: false}))
 
         setDays([...previousDays, ...daysToCurrentMonth, ...nextDays])
 
@@ -164,10 +169,12 @@ export function Days({
             renderItem={({ item }) => (
                 <DayContainer 
                     isSelected={item.day === daySelected.day && item.isCurrentMonth === daySelected.isCurrentMonth} 
-                    activeOpacity={1} 
+                    activeOpacity={1}
+                    isToday={item.isToday}
                     onPress={() => item.isCurrentMonth && setDaySelected(item)}>
 
                     <Day 
+                        isToday={item.isToday}
                         isSelected={item.day === daySelected.day && item.isCurrentMonth === daySelected.isCurrentMonth} 
                         isCurrentMonth={item.isCurrentMonth}>{item.day}</Day>
                 </DayContainer>

@@ -17,6 +17,18 @@ export function Calendar(){
     const [monthSelected, setMonthSelected] = useState<DropdownItemProps<string>>({} as DropdownItemProps<string>)
     const [dropdownState, setDropdownState] = useState(false)
 
+    const getCurrentDate = () => {
+        const date = new Date()
+        const currentMonth = date.getMonth()
+        const currentYear = date.getFullYear()
+        const currentDate: DropdownItemProps<string> = {
+            key: String(uuid.v4()),
+            label: `${allMonths[currentMonth]} ${currentYear}`,
+            value: `${currentMonth + 1}|${currentYear}`
+        }
+        setMonthSelected(currentDate)
+    }
+
     const mountMonthList = () => {
         const allYears = getAllYears()
         const monthsOfYear: DropdownProps<string>['list'] = []
@@ -49,6 +61,7 @@ export function Calendar(){
 
     useEffect(() => {
         mountMonthList()
+        getCurrentDate()
     }, [])
 
     return (
@@ -56,8 +69,8 @@ export function Calendar(){
             <Top>
                 <Dropdown getState={setDropdownState} list={monthList} onChange={(item) => setMonthSelected(item)}/>
                 <Arrows>
-                    <Ionicons name="chevron-back" size={20} color="black" />
-                    <Ionicons name="chevron-forward" size={20} color="black" />
+                    <Ionicons name="chevron-back" size={20} color={'#805AD5'} />
+                    <Ionicons name="chevron-forward" size={20} color={'#805AD5'}/>
                 </Arrows>
             </Top>
             <WeekDays />
