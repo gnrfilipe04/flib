@@ -45,7 +45,7 @@ export function Dropdown<V>({
   return (
     <Container>
         <Input onPress={toogleVisibleList} activeOpacity={1}>
-            <SelectValue>{value || 'Junho 2022'}</SelectValue>
+            <SelectValue>{value || 'Selecione o mês'}</SelectValue>
             <Ionicons name={listVisible ? "chevron-up" : "chevron-down"} size={20} color="black"/>
         </Input>
 

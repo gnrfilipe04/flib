@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
-import { useDateTimePicker } from '../../contexts/DateTimePickerContext';
+import { useDatePicker } from '../../contexts/DatePickerContext';
 import { allMonths } from '../Calendar/config';
 
 import {
@@ -22,7 +22,7 @@ interface HeaderProps {
 export function Header({
   getDate
 }: HeaderProps){
-  const { dateSelected }  = useDateTimePicker()
+  const { dateSelected }  = useDatePicker()
 
   const [dateText, setDateText] = useState('')
   

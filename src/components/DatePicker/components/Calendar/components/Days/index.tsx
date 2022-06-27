@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { DropdownItemProps } from '../../../../../Dropdown';
-import { useDateTimePicker } from '../../../../contexts/DateTimePickerContext';
+import { useDatePicker } from '../../../../contexts/DatePickerContext';
 import { allMonths } from '../../config';
 
 import {
@@ -39,7 +39,7 @@ export function Days({
     dropdownVisible
 }: DaysComponentProps){
 
-    const { setDateSelected } = useDateTimePicker()
+    const { setDateSelected } = useDatePicker()
 
     const [year, setYear] = useState<Record<string, YearProps>>({})
     const [days, setDays] = useState<DaysProps[]>([])

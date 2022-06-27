@@ -1,30 +1,30 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-interface DateTimePickerProviderProps {
+interface DatePickerProviderProps {
     children: ReactNode;
 }
 
-interface DateTimePickerContext {
+interface DatePickerContext {
     dateSelected: Date;
     setDateSelected: React.Dispatch<React.SetStateAction<Date>>
 }
 
-const DateTimePickerContext = createContext({} as DateTimePickerContext)
+const DatePickerContext = createContext({} as DatePickerContext)
 
-export function DateTimePickerProvider({ children }: DateTimePickerProviderProps){
+export function DatePickerProvider({ children }: DatePickerProviderProps){
 
     const [dateSelected, setDateSelected] = useState<Date>(new Date())
 
     return (
-        <DateTimePickerContext.Provider
+        <DatePickerContext.Provider
             value={{
                 dateSelected,
                 setDateSelected
             }}
         >
             {children}
-        </DateTimePickerContext.Provider>
+        </DatePickerContext.Provider>
     )
 }
 
-export const useDateTimePicker = () => useContext(DateTimePickerContext)
+export const useDatePicker = () => useContext(DatePickerContext)

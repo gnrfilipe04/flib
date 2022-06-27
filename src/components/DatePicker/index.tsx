@@ -1,26 +1,26 @@
 import React from 'react';
 import { Calendar } from './components/Calendar';
 import { Header } from './components/Header';
-import { DateTimePickerProvider, useDateTimePicker } from './contexts/DateTimePickerContext';
+import { DatePickerProvider, useDatePicker } from './contexts/DatePickerContext';
 
 import {
   Container
 } from './styles';
 
-interface DateTimePickerProps {
+interface DatePickerProps {
   getDate: (date: Date) => void;
 }
 
-export function DateTimePicker({
+export function DatePicker({
   getDate
-}: DateTimePickerProps){
+}: DatePickerProps){
 
   return (
-    <DateTimePickerProvider>
+    <DatePickerProvider>
       <Container>
         <Header getDate={getDate}/>
         <Calendar />
       </Container>
-    </DateTimePickerProvider>
+    </DatePickerProvider>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DateTimePicker } from '../../components/DateTimePicker';
+import { DatePicker } from '../../components/DatePicker';
 
 import {
   Container
@@ -8,7 +8,7 @@ import {
 export function DateTime(){
   return (
     <Container>
-        <DateTimePicker getDate={(date) => console.log('DATE', date)}/>
+        <DatePicker getDate={(date) => console.log('DATE', date)}/>
     </Container>
   );
 }
