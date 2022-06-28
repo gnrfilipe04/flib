@@ -1,8 +1,23 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatedList } from './components/AnimatedList';
 
-import { Animated, StyleSheet, Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { genHours } from './utils/genHours';
+import { genMinutes } from './utils/genMinutes';
 
-import { Container } from './styles';
+import { 
+  Animated, 
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+import { 
+  Container,
+  Separate,
+  ButtonContainer
+} from './styles';
+import { Button } from '../Button';
 
 interface TimePickerProps {
   
@@ -11,27 +26,25 @@ interface TimePickerProps {
 export function TimePicker() {
   const {height, width} = Dimensions.get('window')
 
+  const [time, setTime] = useState({
+    hours: '00',
+    minutes: '00'
+  })
+
   const [hours, setHours] = useState<string[]>([])
   const [minutes, setMinutes] = useState<string[]>([])
-
-  const genHours = () => {
-    return Array.from({length: 27}, (_, i) => i)
-      .map((hour) => String(hour).padStart(2, '0'))
-      .map((hour, index) => index === 25 || index === 26 || index === 27 ? hour = '' : hour)
-  }
-
-  const genMinutes = () => {
-    return Array.from({length: 62}, (_, i) => i)
-      .map((hour) => String(hour).padStart(2, '0'))
-      .map((hour, index) => index === 60 || index === 61 || index === 62 ? hour = '' : hour)
-
-  }
 
   const arrHours = genHours()
   const arrMinutes = genMinutes()
 
   const itemSize = 40
-  const itemSpacing = (width - itemSize) / 2
+
+  const scrollYHours = useRef(new Animated.Value(0)).current
+  const scrollYM = useRef(new Animated.Value(0)).current
+
+  const getTime = () => {
+    console.log(time)
+  }
 
   useEffect(() => {
     setHours(arrHours)
@@ -39,124 +52,45 @@ export function TimePicker() {
 
   }, [])
 
-  const scrollY = useRef(new Animated.Value(0)).current
-  const scrollYM = useRef(new Animated.Value(0)).current
-  console.log(scrollY)
-
   return (
+    <>
     <Container 
-      maxHeight={120} 
-      style={{
-        flexDirection: 'row',
-      }}>
-      <Animated.FlatList 
-        data={hours}
-        keyExtractor={(item, index) => String(index)}
-        showsVerticalScrollIndicator={false}
-        snapToInterval={itemSize}
-        decelerationRate={'fast'}
-        style={{flexGrow: 0}}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          { useNativeDriver: true }
-        )}
-        renderItem={(({item, index}) => {
-
-          const inputRange = [
-            (index - 1) * itemSize,
-            (index - 1) * itemSize,
-            index * itemSize,
-            (index + 1) * itemSize 
-          ]
-
-          const opacity = scrollY.interpolate({
-            inputRange,
-            outputRange: [.4, .4, 1, .4]
-          })
-
-          const scale = scrollY.interpolate({
-            inputRange,
-            outputRange: [.7, .7, 1, .7]
-          })
-
-          return (
-            <View style={{
-              height: itemSize,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <Animated.Text 
-                style={{
-                  color: 'white', 
-                  fontSize: 30,
-                  opacity,
-                  transform: [{
-                    scale
-                  }]
-                }}>
-                  {item}
-              </Animated.Text>
-            </View>
-          )
-        })}
+      maxHeight={120}>
+      <AnimatedList 
+        list={hours}
+        itemSize={itemSize}
+        scrollValue={scrollYHours}
+        getValue={(hours) => setTime({...time, hours})}
       />
-      <Text style={{
-        color: 'white',
-        fontSize: 28,
-        paddingHorizontal: 10
-
-      }}>:</Text>
-      <Animated.FlatList 
-        data={minutes}
-        keyExtractor={(item, index) => String(index)}
-        showsVerticalScrollIndicator={false}
-        snapToInterval={itemSize}
-        decelerationRate={'fast'}
-        style={{flexGrow: 0}}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollYM}}}],
-          { useNativeDriver: true }
-        )}
-        renderItem={(({item, index}) => {
-
-          const inputRange = [
-            (index - 1) * itemSize,
-            (index - 1) * itemSize,
-            index * itemSize,
-            (index + 1) * itemSize 
-          ]
-
-          const opacity = scrollYM.interpolate({
-            inputRange,
-            outputRange: [.4, .4, 1, .4]
-          })
-
-          const scale = scrollYM.interpolate({
-            inputRange,
-            outputRange: [.7, .7, 1, .7]
-          })
-
-          return (
-            <View style={{
-              height: itemSize,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <Animated.Text 
-                style={{
-                  color: 'white', 
-                  fontSize: 30,
-                  opacity,
-                  transform: [{
-                    scale,
-                  }]
-                }}>
-                  {item}
-              </Animated.Text>
-            </View>
-          )
-        })}
+      <Separate>:</Separate> 
+      <AnimatedList 
+        list={minutes}
+        itemSize={itemSize}
+        scrollValue={scrollYM}
+        getValue={(minutes) => setTime({...time, minutes})}
       />
     </Container>
+    
+    <ButtonContainer>
+      <Button 
+        bgColor='transparent'
+        textColor='white'
+        title='Cancelar'
+      />
+
+      <Button 
+        bgColor='transparent'
+        textColor='white'
+        title='Ok'
+        style={{
+          borderWidth: 1,
+          borderColor: 'white',
+          paddingVertical: 5,
+          paddingHorizontal: 15,
+          borderRadius: 4
+        }}
+      />
+    </ButtonContainer>
+    </>
   );
 };
