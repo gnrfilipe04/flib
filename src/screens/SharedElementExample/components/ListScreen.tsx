@@ -89,7 +89,7 @@ export function ListScreen() {
                         <TouchableOpacity onPress={() => navigation.navigate('Detail', {item})}>
                             <SharedElement id={`item.${item.id}.photo`}>
                                 <Image
-                                    resizeMode='stretch'
+                                    resizeMode='cover'
                                     source={{ uri: item.poster }}
                                     style={[{
                                         width: ITEM_WIDTH,
