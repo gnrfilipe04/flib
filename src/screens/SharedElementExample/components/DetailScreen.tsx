@@ -21,7 +21,7 @@ export function DetailScreen() {
                         padding: 40,
                     }]}>
                 <Image
-                    resizeMode='cover'
+                    resizeMode='stretch'
                     source={{ uri: item.poster }}
                     style={[StyleSheet.absoluteFillObject, {
                         padding: 40,
