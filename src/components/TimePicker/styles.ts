@@ -13,8 +13,8 @@ export const Container = styled.View<ContainerProps>`
 
 export const Separate = styled.Text`
     color: white;
-    font-size: 28px;
-    padding: 0 10px;
+    font-size:28px;
+    padding: 0 10px 3px 10px;
 `;
 
 export const ButtonContainer = styled.View`

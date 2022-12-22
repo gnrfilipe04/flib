@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Animated, NativeSyntheticEvent, TextInputScrollEventData } from 'react-native'
-import { genInputRange } from '../../utils/getInputRange';
-import { interpolateByScroll } from '../../utils/interpolateByScroll';
+import { genInputRange } from './utils/getInputRange';
+import { interpolateByScroll } from './utils/interpolateByScroll';
 import { ItemText, ItemContainer } from './styles';
 
 interface AnimatedListProps {
@@ -52,7 +52,7 @@ export function AnimatedList ({
           const scale = interpolateByScroll(inputRange, outputRangeScale, scrollValue)
 
           return (
-            <ItemContainer itemSize={itemSize}>
+            <ItemContainer>
               <ItemText
                 color={'white'}
                 fontSize={30} 

@@ -19,8 +19,8 @@ export const SharedElementExample = () => {
           options={() => ({
             gestureEnabled: false,
             transitionSpec: {
-              open: { animation: 'timing', config: { duration: 500}},
-              close: { animation: 'timing', config: { duration: 500}}
+              open: { animation: 'timing', config: { duration: 300}},
+              close: { animation: 'timing', config: { duration: 300}}
             },
             cardStyleInterpolator: ({ current: {progress} }) => {
               return {

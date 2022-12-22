@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimatedList } from './components/AnimatedList';
+import { AnimatedList } from '../AnimatedList';
+import { Button } from '../Button';
 
 import { genHours } from './utils/genHours';
 import { genMinutes } from './utils/genMinutes';
@@ -17,7 +18,6 @@ import {
   Separate,
   ButtonContainer
 } from './styles';
-import { Button } from '../Button';
 
 interface TimePickerProps {
   
@@ -81,13 +81,13 @@ export function TimePicker() {
       <Button 
         bgColor='transparent'
         textColor='white'
-        title='Ok'
+        title='Confirmar'
         style={{
           borderWidth: 1,
           borderColor: 'white',
           paddingVertical: 5,
           paddingHorizontal: 15,
-          borderRadius: 4
+          borderRadius: 4,
         }}
       />
     </ButtonContainer>
